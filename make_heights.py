@@ -44,4 +44,4 @@ def make_file(stop=default_stop):
     f.close()
     
 if __name__=="__main__":
-    make_file(stop=510)
+    make_file(stop=500)
