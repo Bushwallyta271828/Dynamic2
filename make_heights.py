@@ -1,8 +1,7 @@
 from __future__ import division
 from pylab import *
 
-default_start = 5
-default_stop = 100
+default_stop = 500
 default_samples = int(1e6)
 
 def avg_height_find(n, samples=default_samples):
@@ -22,7 +21,7 @@ def avg_height_find(n, samples=default_samples):
     return average(amax(data, axis=0)
                  - amin(data, axis=0))
     
-def make_file(start=default_start, stop=default_stop):
+def make_file(stop=default_stop):
     """
     Author: Xander
     This method calls avg_height_find(...) for every n
@@ -34,20 +33,15 @@ def make_file(start=default_start, stop=default_stop):
         g = open("heights.txt")
         lines = g.readlines()
         g.close()
-        for line in lines:
-            n = int(line.split(":")[0])
-            zeta = float(line[:-1].split(":")[1])
-            avg_heights[n] = zeta
+        line = lines[-1]
+        start = int(line.split(":")[0]) + 1
     except IOError: #heights.txt doesn't exist yet.
-        avg_heights = {}
-    f = open("heights.txt", "w")
-    for i in avg_heights:
-        f.write(str(i) + ":" + str(avg_heights[i]) + "\n")
+        start = 2
+    f = open("heights.txt", "a")
     for n in range(start, stop + 1):
-        if n not in avg_heights:
-            f.write(str(n) + ":" + str(avg_height_find(n)) + "\n")
-            print n
+        f.write(str(n) + ":" + str(avg_height_find(n)) + "\n")
+        print n
     f.close()
     
 if __name__=="__main__":
-    make_file(start=2, stop=50)
+    make_file(stop=510)
