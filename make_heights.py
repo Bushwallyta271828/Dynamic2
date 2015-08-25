@@ -30,7 +30,16 @@ def make_file(start=default_start, stop=default_stop):
     the output to heights.txt in the format:
         n:zeta(n)
     """
-    avg_heights = {}
+    try:
+        g = open("heights.txt")
+        lines = g.readlines()
+        g.close()
+        for line in lines:
+            n = int(line.split(":")[0])
+            zeta = float(line[:-1].split(":")[1])
+            avg_heights[n] = zeta
+    except IOError: #heights.txt doesn't exist yet.
+        avg_heights = {}
     f = open("heights.txt", "w")
     for i in avg_heights:
         f.write(str(i) + ":" + str(avg_heights[i]) + "\n")
