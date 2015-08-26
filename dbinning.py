@@ -7,6 +7,20 @@ from program import *
 def compute_binning():
     """
     Author: Xander
+    This function is a command-line interface
+    to the compartmentalize(...) function in
+    program.py. The command-line arguments
+    that must be passed are:
+        1.) the input file name
+        2.) the output file name
+        3.) the maximum acceptible length (inf for infinity)
+        4.) the maximum acceptible P-value.
+    The output file will be of the format:
+        badness(newline)
+        compartmentalize_output[0][0](newline)
+        compartmentalize_output[0][1](newline)
+        compartmentalize_output[0][2](newline)
+        ...
     """
     args = sys.argv
     input_file = args[1]
