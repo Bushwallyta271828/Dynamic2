@@ -39,20 +39,20 @@ def compute_intensities():
     are separated by single spaces. 
     """
     args = sys.argv
-    purpose = int(args[0])
+    purpose = int(args[1])
     if purpose in ["dynamic", "both"]:
-        pval = float(args[1])
+        pval = float(args[2])
+        x = int(args[3])
+        y = int(args[4])
+        rad = int(args[5])
+        output = args[6]
+        places = args[7: len(args)]
+    else: #purpose = "static"
         x = int(args[2])
         y = int(args[3])
         rad = int(args[4])
         output = args[5]
         places = args[6: len(args)]
-    else: #purpose = "static"
-        x = int(args[1])
-        y = int(args[2])
-        rad = int(args[3])
-        output = args[4]
-        places = args[5: len(args)]
     if purpose == "static":
         intensities = []
         for place in places:
