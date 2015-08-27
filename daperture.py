@@ -39,7 +39,7 @@ def compute_intensities():
     are separated by single spaces. 
     """
     args = sys.argv
-    purpose = int(args[1])
+    purpose = args[1]
     if purpose in ["dynamic", "both"]:
         pval = float(args[2])
         x = int(args[3])
@@ -85,7 +85,7 @@ def compute_intensities():
             old_intensities.append(photo.old_intensity((x, y), rad))
             photo.close()
         f = open(output, "w")
-        for intensitynum in range(len(intensities)):
+        for intensitynum in range(len(new_intensities)):
             f.write(str(new_intensities[intensitynum])
                   + " "
                   + str(old_intensities[intensitynum])
