@@ -12,7 +12,6 @@ def create_image():
     lowers = []
     uppers = []
     xs = []
-    print compartmentalization[0]
     for pointnum, point in enumerate(compartmentalization[:-1]):
         next_point = compartmentalization[pointnum + 1]
         block = lightcurve[point: next_point]
