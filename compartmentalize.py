@@ -54,14 +54,6 @@ def compartmentalize(lightcurve,
     requirement, which saves us from looking at blocks stretching very long
     distances. If max_length is set to float("inf"), for instance, the algorithm
     becomes O(n^2). Think of the program as O(n * min(n, max_length - min_size)).
-    The last two keyword arguments passed in are linked. The user specifies max_pval,
-    the maximum probability that a measurement can land outside the error bars, which
-    the computer then uses to find min_size, the minimum number of frames allowed in
-    a bin. Since there is no need to re-compute this quantity, it is passed in directly
-    to recursive calls. The formula for min_size in terms of max_pval is:
-        min_size = max(2, int(2 / max_pval))
-    This can be derived by some combination of math and quick computer scripts to 
-    check that math for small values of min_size.
     """
     if memo == None: memo = {}
     if barmap == None:
