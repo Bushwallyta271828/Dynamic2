@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from pylab import *
-from matplotlib import cm
-from scipy.stats import norm
-from astropy.io import fits
+from numpy import *
 
 """
 Comments:
