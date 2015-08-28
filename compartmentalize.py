@@ -55,69 +55,20 @@ def compartmentalize(lightcurve,
     distances. If max_length is set to float("inf"), for instance, the algorithm
     becomes O(n^2). Think of the program as O(n * min(n, max_length - min_size)).
     """
-    if memo == None: memo = {}
-    if barmap == None:
-        max_length = min(max_length, len(lightcurve))
-        f = open("heights.txt")
-        lines = f.readlines()
-        f.close()
-        barmap = [None, None] #Neither 0 nor 1 may be called - they have no meaning.
-        for line in lines:
-            height = float(line[:-1].split(":")[1])
-            barmap.append(height)
-        slope = (barmap[-1] - barmap[-21]) / 20
-        while max_length > len(barmap) - 1:
-            barmap.append(barmap[-1] + slope)
-    if min_size == None:
-        min_size = max(2, int(2 / max_pval))
-        """
-        Inverting the formula pval = 2 / (min_size + 1), but since int
-        rounds down, the -1 must be discarded.
-        """
-    if x in memo: return memo[x] + (memo,)
-    elif len(lightcurve) - x < min_size:
-        partition = [x, len(lightcurve)]
-        badness = float("inf")
-        return (partition, badness, memo)
-    elif len(lightcurve) - x in [2, 3]:
-        partition = [x, len(lightcurve)]
-        block = lightcurve[x:]
-        height = max(block) - min(block)
-        badness = len(block) * height / barmap[len(block)]
-        return (partition, badness, memo)
-    else:
-        pre_lightcurve_slice = lightcurve[x: x + min_size]
-        maximum = max(pre_lightcurve_slice)
-        minimum = min(pre_lightcurve_slice)
-        best_badness = float("inf")
-        best_partition = []
-        for new_x in range(x + min_size, min(len(lightcurve) - 1, x + max_length + 1)):
-            height = maximum - minimum
-            new_badness = (new_x - x) * height / barmap[new_x - x]
-            compartmentalization = compartmentalize(lightcurve,
-                                                    new_x,
-                                                    memo,
-                                                    max_length,
-                                                    barmap,
-                                                    max_pval,
-                                                    min_size)
-            memo = compartmentalization[2]
-            found_badness = compartmentalization[1]
-            badness = new_badness + found_badness
-            if badness < best_badness:
-                best_badness = badness
-                best_partition = [x] + compartmentalization[0]
-            if lightcurve[new_x] < minimum:
-                minimum = lightcurve[new_x]
-            if lightcurve[new_x] > maximum:
-                maximum = lightcurve[new_x]
-        if len(lightcurve) - x <= max_length:
-            maximum = max(maximum, lightcurve[-1])
-            minimum = min(minimum, lightcurve[-1])
-            height = maximum - minimum
-            new_badness = (len(lightcurve) - x) * height / barmap[len(lightcurve) - x]
-            if new_badness < best_badness:
-                best_badness = new_badness
-                best_partition = [x, len(lightcurve)]
-        memo[x] = (best_partition, best_badness)
-        return (best_partition, best_badness, memo)
+    max_length = min(max_length, len(lightcurve))
+    f = open("heights.txt")
+    lines = f.readlines()
+    f.close()
+    barmap = [None, None] #Neither 0 nor 1 may be called - they have no meaning.
+    for line in lines:
+        height = float(line[:-1].split(":")[1])
+        barmap.append(height)
+    slope = (barmap[-1] - barmap[-21]) / 20
+    while max_length > len(barmap) - 1:
+        barmap.append(barmap[-1] + slope)
+    min_size = max(2, int(2 / max_pval))
+    memovalues = [None]*len(lightcurve)
+    memovalues[len(lightcurve) - min_size:] = [([], float("inf"))]*min_size
+    i = len(memovalues) - min_size
+    while len(lightcurve) - i + 1 <= max_length:
+        `
