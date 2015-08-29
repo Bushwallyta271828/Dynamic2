@@ -2,7 +2,8 @@
 from __future__ import division
 import sys
 from pylab import *
-from program import *
+from numpy import *
+from compartmentalize import *
 
 def compute_binning():
     """
