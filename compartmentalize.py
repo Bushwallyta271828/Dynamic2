@@ -78,7 +78,7 @@ def compartmentalize(lightcurve,
         for j in range(i + min_size, min(len(lightcurve) + 1, i + max_length + 1)):
             new_badness = (j - i) * (maximum - minimum) / barmap[j - i]
             found_partitioning, found_badness = memovalues[j]
-            if new_badness + found_badness > best_badness:
+            if new_badness + found_badness < best_badness:
                 best_badness = new_badness + found_badness
                 best_partitioning = [i] + found_partitioning
             if j < len(lightcurve) and lightcurve[j] > maximum:
