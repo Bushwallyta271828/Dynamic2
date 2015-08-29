@@ -86,4 +86,5 @@ def compartmentalize(lightcurve,
             elif j < len(lightcurve) and lightcurve[j] < minimum:
                 minimum = lightcurve[j]
         memovalues[i] = (best_partitioning, best_badness)
+        i -= 1
     return memovalues[0]
