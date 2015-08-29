@@ -2,7 +2,8 @@
 from __future__ import division
 import sys
 from pylab import *
-from program import *
+from numpy import *
+from aperture import *
 
 def compute_intensities():
     """
