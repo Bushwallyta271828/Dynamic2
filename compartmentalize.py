@@ -196,13 +196,13 @@ def compartmentalize2(lightcurve,
         for new_x in range(x + min_size, min(len(lightcurve) - 1, x + max_length + 1)):
             height = maximum - minimum
             new_badness = (new_x - x) * height / barmap[new_x - x]
-            compartmentalization = compartmentalize(lightcurve,
-                                                    new_x,
-                                                    memo,
-                                                    max_length,
-                                                    barmap,
-                                                    max_pval,
-                                                    min_size)
+            compartmentalization = compartmentalize2(lightcurve,
+                                                     new_x,
+                                                     memo,
+                                                     max_length,
+                                                     barmap,
+                                                     max_pval,
+                                                     min_size)
             memo = compartmentalization[2]
             found_badness = compartmentalization[1]
             badness = new_badness + found_badness
@@ -225,6 +225,6 @@ def compartmentalize2(lightcurve,
         return (best_partition, best_badness, memo)
         
         
-a = normal(0, 1, (1000,))
-print compartmentalize(a)
-print compartmentalize2(a)[:-1]
+a = normal(0, 1, (2000,))
+print compartmentalize(a, max_length=20)
+print compartmentalize2(a, max_length=20)[:-1]
