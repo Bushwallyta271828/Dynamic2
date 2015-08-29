@@ -60,11 +60,12 @@ def compartmentalize(lightcurve,
     iterative methods alone - further speedups may have ensued due to better programming
     in other ways).
     """
-    max_length = min(max_length, len(lightcurve))
+    l = len(lightcurve)
+    max_length = min(max_length, l)
     f = open("heights.txt")
     lines = f.readlines()
     f.close()
-    barmap = [None, None] #Neither 0 nor 1 may be called - they have no meaning.
+    barmap = [None, None]
     for line in lines:
         height = float(line[:-1].split(":")[1])
         barmap.append(height)
@@ -72,23 +73,23 @@ def compartmentalize(lightcurve,
     while max_length > len(barmap) - 1:
         barmap.append(barmap[-1] + slope)
     min_size = max(2, int(2 / max_pval))
-    memovalues = [None]*len(lightcurve) + [([len(lightcurve)], 0)]
-    memovalues[len(lightcurve) - min_size + 1:-1] = [([], float("inf"))]*(min_size - 1)
-    i = len(lightcurve) - min_size
+    memovalues = [None]*l + [([l], 0)]
+    memovalues[l - min_size + 1:-1] = [([], float("inf"))]*(min_size - 1)
+    i = l - min_size
     while i >= 0:
         minimum = min(lightcurve[i:i + min_size])
         maximum = max(lightcurve[i:i + min_size])
         best_badness = float("inf")
         best_partitioning = []
-        for j in range(i + min_size, min(len(lightcurve) + 1, i + max_length + 1)):
+        for j in range(i + min_size, min(l + 1, i + max_length + 1)):
             new_badness = (j - i) * (maximum - minimum) / barmap[j - i]
             found_partitioning, found_badness = memovalues[j]
             if new_badness + found_badness < best_badness:
                 best_badness = new_badness + found_badness
                 best_partitioning = [i] + found_partitioning
-            if j < len(lightcurve) and lightcurve[j] > maximum:
+            if j < l and lightcurve[j] > maximum:
                 maximum = lightcurve[j]
-            elif j < len(lightcurve) and lightcurve[j] < minimum:
+            elif j < l and lightcurve[j] < minimum:
                 minimum = lightcurve[j]
         memovalues[i] = (best_partitioning, best_badness)
         i -= 1
