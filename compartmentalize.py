@@ -54,6 +54,9 @@ def compartmentalize(lightcurve,
     requirement, which saves us from looking at blocks stretching very long
     distances. If max_length is set to float("inf"), for instance, the algorithm
     becomes O(n^2). Think of the program as O(n * min(n, max_length - min_size)).
+    Older versions of this method are implemented with a recursive algorithm.
+    This function is now implemented iteratively, making it somewhat faster (~0.75 
+    seconds for the old program becomes ~0.6 seconds for the newer version).
     """
     max_length = min(max_length, len(lightcurve))
     f = open("heights.txt")
