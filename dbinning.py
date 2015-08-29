@@ -10,7 +10,7 @@ def compute_binning():
     Author: Xander
     This function is a command-line interface
     to the compartmentalize(...) function in
-    program.py. The command-line arguments
+    compartmentalize.py. The command-line arguments
     that must be passed are:
         1.) the input file name
         2.) the output file name
