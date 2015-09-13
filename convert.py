@@ -9,7 +9,14 @@ def convert():
     file xis.txt in the new v2.1 format.
     """
     f = open("heights.txt")
-    
+    lines = f.readlines()
+    f.close()
+    g = open("xis.txt", "w")
+    for line in lines:
+        n = int(line.split(":")[0])
+        zeta = float(line.split(":")[1])
+        g.write(str(n) + ":" + str(n / zeta) + "\n")
+    g.close()
 
 if __name__=="__main__":
     convert()
