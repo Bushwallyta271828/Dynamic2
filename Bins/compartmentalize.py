@@ -6,7 +6,7 @@ from numpy import *
 """
 Comments:
 A Block is a Bin.
-heights.txt must be kept in the same directory at all times!
+xis.txt must be kept in the same directory at all times!
 """
 
 def compartmentalize(lightcurve,
@@ -36,7 +36,7 @@ def compartmentalize(lightcurve,
             divided by part of the average and just make our problem the minimization
             of the sum of the standard deviations, weighted by size, of the bins. 
             However, since the end result only depends on the error bar heights,
-            and not the standard deviations themselves, we can use zeta in heights.txt
+            and not the standard deviations themselves, we can use zeta in Dynamic Writeup.pdf
             to infer the standard deviation (assuming the lightcurve is distributed
             as a gaussian for small intervals) with the formula:
                 standard_deviation = height / barmap[number of frames]
@@ -45,7 +45,11 @@ def compartmentalize(lightcurve,
                 badness of a bin = (number of frames) * height / barmap[number of frames]
             The returned partitioning is the partitioning, given that 
             no bin can have more than max_length items in it, that minimizes the total 
-            badness. For more information on the algorithm, check out Dynamic Writeup.pdf
+            badness. For more information on the algorithm, check out Dynamic Writeup.pdf.
+            Since (number of frames) / barmap[number of frames] is the only quantity
+            relating to barmap we care about, I re-define barmap[n] to be xi(n), or
+            n / zeta(n), and thus:
+                badness of a bin = height * barmap[number of frames]
     The function uses Dynamic Programming to find the best partitioning in O(n) time,
     where n is the length of the lightcurve. Since any algorithm must at least look
     at every intensity of the lightcurve, this program provides the best
@@ -54,15 +58,10 @@ def compartmentalize(lightcurve,
     requirement, which saves us from looking at blocks stretching very long
     distances. If max_length is set to float("inf"), for instance, the algorithm
     becomes O(n^2). Think of the program as O(n * min(n, max_length - min_size)).
-    Older versions of this method are implemented with a recursive algorithm.
-    This function is now implemented iteratively, making it somewhat faster (~0.75 
-    seconds for the old program becomes ~0.6 seconds for the newer version due to
-    iterative methods alone - further speedups may have ensued due to better programming
-    in other ways).
     """
     l = len(lightcurve)
     max_length = min(max_length, l)
-    f = open("heights.txt")
+    f = open("xis.txt")
     lines = f.readlines()
     f.close()
     barmap = [None, None]
@@ -82,15 +81,14 @@ def compartmentalize(lightcurve,
         best_badness = float("inf")
         best_partitioning = []
         for j in range(i + min_size, min(l + 1, i + max_length + 1)):
-            new_badness = (j - i) * (maximum - minimum) / barmap[j - i]
+            new_badness = (maximum - minimum) * barmap[j - i]
             found_partitioning, found_badness = memovalues[j]
             if new_badness + found_badness < best_badness:
                 best_badness = new_badness + found_badness
                 best_partitioning = [i] + found_partitioning
-            if j < l and lightcurve[j] > maximum:
-                maximum = lightcurve[j]
-            elif j < l and lightcurve[j] < minimum:
-                minimum = lightcurve[j]
+            if j < l and lightcurve[j] > maximum: maximum = lightcurve[j]
+            elif j < l and lightcurve[j] < minimum: minimum = lightcurve[j]
         memovalues[i] = (best_partitioning, best_badness)
         i -= 1
     return memovalues[0]
+
