@@ -8,9 +8,7 @@ default_samples = int(1e6)
 def avg_height_find(n, samples=default_samples):
     """
     Author: Xander
-    This method computes zeta(n), previously 
-    known as barmap[n] inside the compartmentalize
-    function.
+    This method computes zeta(n).
     It makes "samples" different arrays of length
     n, where each element in each array is a normally
     distributed variable with mean 0 and standard deviation
@@ -27,18 +25,18 @@ def make_file(stop=default_stop):
     Author: Xander
     This method calls avg_height_find(...) for every n
     in the range [start, stop], including stop, and writes
-    the output to heights.txt in the format:
-        n: (n/zeta(n))
+    the output to xis.txt in the format:
+        n : (xi(n) = n/zeta(n))
     """
     try:
-        g = open("heights.txt")
+        g = open("xis.txt")
         lines = g.readlines()
         g.close()
         line = lines[-1]
         start = int(line.split(":")[0]) + 1
-    except IOError: #heights.txt doesn't exist yet.
+    except IOError: #xis.txt doesn't exist yet.
         start = 2
-    f = open("heights.txt", "a")
+    f = open("xis.txt", "a")
     for n in range(start, stop + 1):
         f.write(str(n) + ":" + str(n / avg_height_find(n)) + "\n")
         print n
