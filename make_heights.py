@@ -28,7 +28,7 @@ def make_file(stop=default_stop):
     This method calls avg_height_find(...) for every n
     in the range [start, stop], including stop, and writes
     the output to heights.txt in the format:
-        n:zeta(n)
+        n: (n/zeta(n))
     """
     try:
         g = open("heights.txt")
@@ -40,9 +40,9 @@ def make_file(stop=default_stop):
         start = 2
     f = open("heights.txt", "a")
     for n in range(start, stop + 1):
-        f.write(str(n) + ":" + str(avg_height_find(n)) + "\n")
+        f.write(str(n) + ":" + str(n / avg_height_find(n)) + "\n")
         print n
     f.close()
     
 if __name__=="__main__":
-    make_file(stop=500)
+    make_file()
