@@ -10,5 +10,5 @@ There are two folders in this repository: Aperture and Bins. They contain the tw
    * xis.txt is a file containing pre-computed numbers.
    * make_xis.py creates the xis.txt file.
    * dbinning.py provides a command-line interface for the program.
-   * convert.py is a program that converts an older file (heights.txt in v2.0) to the newer standard (xis.txt)
+   * convert.py is a program that converts an older file (heights.txt in v2.0) to the newer standard (xis.txt).  
 Check the in-code documentation for the fine details.
